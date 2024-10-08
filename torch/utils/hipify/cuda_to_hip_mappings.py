@@ -2384,6 +2384,7 @@ CUDA_SPECIAL_MAP = collections.OrderedDict(
     [
         # SparseLt
         ("cuSPARSELt", "hipSPARSELt"),
+        ("cusparseLt.h", "hipsparselt.h"),
         ("AT_CUSPARSELT_ENABLED", "AT_HIPSPARSELT_ENABLED"),
         ("CUSPARSE_ORDER_ROW", "HIPSPARSE_ORDER_ROW"),
         ("CUSPARSE_ORDER_COL", "HIPSPARSE_ORDER_COL"),

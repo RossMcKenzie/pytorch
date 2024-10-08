@@ -265,6 +265,7 @@ CUDA_INCLUDE_MAP = collections.OrderedDict(
         ("cublas.h", "hipblas/hipblas.h"),
         ("cublas_v2.h", "hipblas/hipblas.h"),
         ("cublasLt.h", "hipblaslt/hipblaslt.h"),
+        ("cusparseLt.h", "hipsparselt/hipsparselt.h"),
         ("curand.h", "hiprand/hiprand.h"),
         ("curand_kernel.h", "hiprand/hiprand_kernel.h"),
         ("curand_discrete.h", "hiprand/hiprand_kernel.h"),
@@ -2384,7 +2385,6 @@ CUDA_SPECIAL_MAP = collections.OrderedDict(
     [
         # SparseLt
         ("cuSPARSELt", "hipSPARSELt"),
-        ("cusparseLt.h", "hipsparselt.h"),
         ("AT_CUSPARSELT_ENABLED", "AT_HIPSPARSELT_ENABLED"),
         ("CUSPARSE_ORDER_ROW", "HIPSPARSE_ORDER_ROW"),
         ("CUSPARSE_ORDER_COL", "HIPSPARSE_ORDER_COL"),

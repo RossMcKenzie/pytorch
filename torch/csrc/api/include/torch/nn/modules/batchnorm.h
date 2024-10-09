@@ -7,8 +7,6 @@
 #include <torch/nn/pimpl.h>
 #include <torch/types.h>
 
-#include <cstdint>
-
 namespace torch {
 namespace nn {
 
@@ -104,11 +102,8 @@ class BatchNormImplBase : public NormImplBase<D, Derived, BatchNormOptions> {
 
   Tensor forward(const Tensor& input) {
     this->_check_input_dim(input);
-    // NOLINTNEXTLINE(cppcoreguidelines-init-variables)
-    double exponential_average_factor;
-    if (this->options.momentum() == c10::nullopt) {
-      exponential_average_factor = 0.0;
-    } else {
+    double exponential_average_factor = 0.0;
+    if (this->options.momentum().has_value()) {
       exponential_average_factor = this->options.momentum().value();
     }
 
@@ -116,7 +111,7 @@ class BatchNormImplBase : public NormImplBase<D, Derived, BatchNormOptions> {
       if (this->num_batches_tracked.defined()) {
         this->num_batches_tracked += 1;
         if (this->options.momentum() ==
-            c10::nullopt) { // use cumulative moving average
+            std::nullopt) { // use cumulative moving average
           exponential_average_factor =
               1.0 / this->num_batches_tracked.template item<double>();
         } else { // use exponential moving average

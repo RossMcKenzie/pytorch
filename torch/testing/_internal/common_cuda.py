@@ -29,9 +29,16 @@ SM60OrLater = LazyVal(lambda: torch.cuda.is_available() and torch.cuda.get_devic
 SM70OrLater = LazyVal(lambda: torch.cuda.is_available() and torch.cuda.get_device_capability() >= (7, 0))
 SM75OrLater = LazyVal(lambda: torch.cuda.is_available() and torch.cuda.get_device_capability() >= (7, 5))
 SM80OrLater = LazyVal(lambda: torch.cuda.is_available() and torch.cuda.get_device_capability() >= (8, 0))
+SM89OrLater = LazyVal(lambda: torch.cuda.is_available() and torch.cuda.get_device_capability() >= (8, 9))
 SM90OrLater = LazyVal(lambda: torch.cuda.is_available() and torch.cuda.get_device_capability() >= (9, 0))
 
 IS_JETSON = LazyVal(lambda: torch.cuda.is_available() and torch.cuda.get_device_capability() in [(7, 2), (8, 7)])
+
+def CDNA2OrLater():
+    if TEST_WITH_ROCM:
+        gcn_arch_name = torch.cuda.get_device_properties('cuda').gcnArchName
+        return any(arch in gcn_arch_name for arch in {"gfx90a", "gfx940", "gfx941", "gfx942"})
+    return False
 
 def evaluate_gfx_arch_exact(matching_arch):
     if not torch.cuda.is_available():

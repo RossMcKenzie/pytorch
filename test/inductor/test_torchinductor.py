@@ -12125,12 +12125,13 @@ if HAS_GPU and not TEST_WITH_ASAN:
 
         @requires_gpu()
         @parametrize("upcast_to_fp32", [False, True])
+        @config.patch("triton.use_block_ptr", True)
         def test_codegen_upcast_to_fp32(self, upcast_to_fp32):
             @torch.compile
-            def func(a, b):
-                return a * b
+            def func(a, b, c, d):
+                return a * b * c * d
 
-            inps = (torch.rand((32, 32), device=GPU_TYPE, dtype=torch.float16),) * 2
+            inps = (torch.rand((32, 32), device=GPU_TYPE, dtype=torch.float16),) * 4
             with config.patch("triton.codegen_upcast_to_fp32", upcast_to_fp32):
                 func_opt = torch._dynamo.optimize("inductor")(func)
                 code = run_and_get_triton_code(func_opt, *inps)
